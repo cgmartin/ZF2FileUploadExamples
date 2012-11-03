@@ -1,7 +1,7 @@
-ZF2FileUploadExamples
-=====================
+ZF2 File Upload Examples Module
+===============================
 
-Form file upload examples for Zend Framework 2.
+A set of form file upload examples in a Zend Framework 2 module.
 
 **WORK-IN-PROGRESS. NOT CURRENTLY FUNCTIONAL.**
 
