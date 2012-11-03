@@ -3,6 +3,8 @@ ZF2FileUploadExamples
 
 Form file upload examples for Zend Framework 2.
 
+**WORK-IN-PROGRESS. NOT CURRENTLY FUNCTIONAL**
+
 *NOTE:* Currently only works with this [ZF2 branch](https://github.com/cgmartin/zf2/tree/feature/form-file).
 
 Installation
