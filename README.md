@@ -3,7 +3,7 @@ ZF2 File Upload Examples Module
 
 A set of form file upload examples in a Zend Framework 2 module.
 
-**WORK-IN-PROGRESS. NOT CURRENTLY FUNCTIONAL.**
+**WORK-IN-PROGRESS: Not all examples are complete**
 
 *NOTE:* Only compatible with [this ZF2 branch](https://github.com/cgmartin/zf2/tree/feature/form-file).
 

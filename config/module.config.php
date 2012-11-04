@@ -18,7 +18,16 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-
+                    'success' => array(
+                        'type'    => 'Literal',
+                        'options' => array(
+                            'route'    => '/success',
+                            'defaults' => array(
+                                'controller'    => 'fileupload_examples',
+                                'action'        => 'success',
+                            ),
+                        ),
+                    ),
                     'single' => array(
                         'type'    => 'Literal',
                         'options' => array(
@@ -26,6 +35,16 @@ return array(
                             'defaults' => array(
                                 'controller'    => 'fileupload_examples',
                                 'action'        => 'single',
+                            ),
+                        ),
+                    ),
+                    'single-prg' => array(
+                        'type'    => 'Literal',
+                        'options' => array(
+                            'route'    => '/single-prg',
+                            'defaults' => array(
+                                'controller'    => 'fileupload_examples',
+                                'action'        => 'single-prg',
                             ),
                         ),
                     ),

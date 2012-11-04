@@ -3,4 +3,5 @@
 return array(
     'ZF2FileUploadExamples\Module'              => __DIR__ . '/Module.php',
     'ZF2FileUploadExamples\Controller\Examples' => __DIR__ . '/src/ZF2FileUploadExamples/Controller/Examples.php',
+    'ZF2FileUploadExamples\Form\SingleUpload'   => __DIR__ . '/src/ZF2FileUploadExamples/Form/SingleUpload.php',
 );
