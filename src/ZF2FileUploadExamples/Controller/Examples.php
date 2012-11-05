@@ -76,15 +76,15 @@ class Examples extends AbstractActionController
     {
         $form = new Form\SingleUpload('file-form');
         $prg = $this->fileprg($form, 'fileupload/single-prg');
-        if (false !== $prg && isset($prg->response)) {
+        if ($prg instanceof \Zend\Http\PhpEnvironment\Response) {
             // Form has run validators/filters
             // Do what needs to be done with the data (if valid)
-            if ($prg->isValid) {
+            if ($form->isValid()) {
                 return $this->redirectToSuccessPage($form->getData());
-            } else {
-                // Return PRG redirect response
-                return $prg->response;
             }
+
+            // Return PRG redirect response
+            return $prg;
         }
 
         $view = new ViewModel(array(
