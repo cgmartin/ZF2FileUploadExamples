@@ -2,10 +2,11 @@
 
 namespace ZF2FileUploadExamples\Form;
 
+use Zend\InputFilter;
 use Zend\Form\Form;
 use Zend\Form\Element;
 
-class SingleUpload extends Form
+class MultiHtml5Upload extends Form
 {
     public function __construct($name = null, $options = array())
     {
@@ -13,7 +14,9 @@ class SingleUpload extends Form
 
         // File Input
         $file = new Element\File('file');
-        $file->setLabel('File Input');
+        $file
+            ->setLabel('File Input')
+            ->setAttributes(array('multiple' => true));
         $this->add($file);
 
         // Text Input

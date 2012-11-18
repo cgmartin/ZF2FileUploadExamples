@@ -2,7 +2,7 @@
     <a href="<?php echo $this->url('fileupload')?>">&laquo; Back to Examples Listing</a>
 </div>
 
-<h2>Example</h2>
+<h2><?php echo ($this->title) ?: 'File Upload Examples' ?></h2>
 
 <?php
 // Init Form
@@ -19,7 +19,7 @@ $errorsHelper
 ?>
 <?php echo $this->form()->openTag($form); ?>
 <fieldset>
-    <legend>Single File Upload</legend>
+    <legend><?php echo ($this->legend) ?: 'Single File Upload' ?></legend>
 
     <?php
     $elem = $form->get('text');
@@ -46,6 +46,19 @@ $errorsHelper
         <div class="controls">
             <?php echo $this->formFile($elem); ?>
             <?php echo $errorsHelper($elem); ?>
+            <?php if (!empty($this->tempFiles)) { ?>
+                <!--
+                Note: You might not want to render the file input in this
+                case either, depending on your use-case.
+                -->
+                <div class="help-block">
+                    Uploaded: <ul>
+                    <?php foreach ($this->tempFiles as $tempFile) { ?>
+                        <li><?php echo $this->escapeHtml($tempFile['name']) ?></li>
+                    <?php } ?>
+                    </ul>
+                </div>
+            <?php } ?>
         </div>
     </div>
 

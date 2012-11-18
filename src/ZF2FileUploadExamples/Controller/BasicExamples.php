@@ -3,12 +3,13 @@
 namespace ZF2FileUploadExamples\Controller;
 
 use ZF2FileUploadExamples\Form;
-use Zend\Mvc\Controller\AbstractActionController;
+use ZF2FileUploadExamples\InputFilter;
 use Zend\Debug\Debug;
+use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
 
-class Examples extends AbstractActionController
+class BasicExamples extends AbstractActionController
 {
     /**
      * @var Container
@@ -48,6 +49,7 @@ class Examples extends AbstractActionController
     public function singleAction()
     {
         $form = new Form\SingleUpload('file-form');
+        $form->setInputFilter(new InputFilter\FileUpload());
 
         if ($this->getRequest()->isPost()) {
             // Postback
@@ -58,39 +60,55 @@ class Examples extends AbstractActionController
 
             $form->setData($data);
             if ($form->isValid()) {
+                // Get raw file data array
+                $fileData = $form->get('file')->getValue();
+                //Debug::dump($fileData); die();
+
+                //
+                // ...Save the form...
+                //
                 return $this->redirectToSuccessPage($form->getData());
             }
         }
 
-        return array(
-            'form' => $form,
-        );
+        return array('form' => $form);
     }
 
     /**
-     * Example of a single file upload form w/ Post-Redirect-Get plugin.
+     * Example of a single File element using the HTML5 "multiple" attribute.
      *
      * @return array|ViewModel
      */
-    public function singlePrgAction()
+    public function multiHtml5Action()
     {
-        $form = new Form\SingleUpload('file-form');
-        $prg = $this->fileprg($form, 'fileupload/single-prg');
-        if ($prg instanceof \Zend\Http\PhpEnvironment\Response) {
-            // Form has run validators/filters
-            // Do what needs to be done with the data (if valid)
+        $form = new Form\MultiHtml5Upload('file-form');
+        $form->setInputFilter(new InputFilter\FileUpload());
+
+        if ($this->getRequest()->isPost()) {
+            // Postback
+            $data = array_merge(
+                $this->getRequest()->getPost()->toArray(),
+                $this->getRequest()->getFiles()->toArray()
+            );
+
+            $form->setData($data);
             if ($form->isValid()) {
+                // Get raw file data array
+                $fileData = $form->get('file')->getValue();
+                //Debug::dump($fileData); die();
+
+                //
+                // ...Save the form...
+                //
                 return $this->redirectToSuccessPage($form->getData());
             }
-
-            // Return PRG redirect response
-            return $prg;
         }
 
         $view = new ViewModel(array(
-            'form' => $form,
+           'legend' => 'Multiple File Upload with HTML5',
+           'form'   => $form,
         ));
-        $view->setTemplate('zf2-file-upload-examples/examples/single');
+        $view->setTemplate('zf2-file-upload-examples/basic-examples/single');
         return $view;
     }
 }

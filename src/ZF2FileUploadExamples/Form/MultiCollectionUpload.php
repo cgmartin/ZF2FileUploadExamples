@@ -2,10 +2,11 @@
 
 namespace ZF2FileUploadExamples\Form;
 
+use Zend\InputFilter;
 use Zend\Form\Form;
 use Zend\Form\Element;
 
-class SingleUpload extends Form
+class MultiCollectionUpload extends Form
 {
     public function __construct($name = null, $options = array())
     {
