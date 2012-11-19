@@ -5,6 +5,7 @@ namespace ZF2FileUploadExamples\Controller;
 use ZF2FileUploadExamples\Form;
 use ZF2FileUploadExamples\InputFilter;
 use Zend\Debug\Debug;
+use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
 
 class PrgExamples extends BasicExamples
@@ -30,6 +31,14 @@ class PrgExamples extends BasicExamples
                 //
                 // ...Save the form...
                 //
+
+                // TODO: The following code is a work-around for bug #2505
+                // https://github.com/zendframework/zf2/issues/2505
+                // ...and should be removed when fixed.
+                $prgContainer = new Container('file_prg_post1');
+                unset($prgContainer->post);
+                unset($prgContainer->errors);
+
                 return $this->redirectToSuccessPage($form->getData());
             }
 
