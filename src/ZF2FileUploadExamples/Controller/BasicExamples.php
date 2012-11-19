@@ -49,7 +49,6 @@ class BasicExamples extends AbstractActionController
     public function singleAction()
     {
         $form = new Form\SingleUpload('file-form');
-        $form->setInputFilter(new InputFilter\FileUpload());
 
         if ($this->getRequest()->isPost()) {
             // Postback
@@ -82,7 +81,6 @@ class BasicExamples extends AbstractActionController
     public function multiHtml5Action()
     {
         $form = new Form\MultiHtml5Upload('file-form');
-        $form->setInputFilter(new InputFilter\FileUpload());
 
         if ($this->getRequest()->isPost()) {
             // Postback
@@ -110,5 +108,40 @@ class BasicExamples extends AbstractActionController
         ));
         $view->setTemplate('zf2-file-upload-examples/basic-examples/single');
         return $view;
+    }
+
+    /**
+     * Example of a single File element using the HTML5 "multiple" attribute.
+     *
+     * @return array|ViewModel
+     */
+    public function collectionAction()
+    {
+        $form = new Form\CollectionUpload('file-form');
+
+        if ($this->getRequest()->isPost()) {
+            // Postback
+            $data = array_merge(
+                $this->getRequest()->getPost()->toArray(),
+                $this->getRequest()->getFiles()->toArray()
+            );
+
+            $form->setData($data);
+            if ($form->isValid()) {
+                // Get raw file data array
+                //for ($i=0; $i < $form->numFileElements; $i++) {
+                //    $fileData = $form->get('file-collection')->get($i)->getValue();
+                //    Debug::dump($fileData);
+                //}
+                //die();
+
+                //
+                // ...Save the form...
+                //
+                return $this->redirectToSuccessPage($form->getData());
+            }
+        }
+
+        return array('form' => $form);
     }
 }

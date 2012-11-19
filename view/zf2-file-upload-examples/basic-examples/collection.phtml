@@ -1,0 +1,74 @@
+<div>
+    <a href="<?php echo $this->url('fileupload')?>">&laquo; Back to Examples Listing</a>
+</div>
+
+<h2><?php echo ($this->title) ?: 'File Upload Examples' ?></h2>
+
+<?php
+// Init Form
+$form = $this->form;
+$form->setAttribute('class', 'form-horizontal');
+$form->prepare();
+
+// Configure Errors Helper
+$errorsHelper  = $this->plugin('formelementerrors');
+$errorsHelper
+    ->setMessageOpenFormat('<div class="help-block">')
+    ->setMessageSeparatorString('</div><div class="help-block">')
+    ->setMessageCloseString('</div>');
+?>
+<?php echo $this->form()->openTag($form); ?>
+<fieldset>
+    <legend><?php echo ($this->legend) ?: 'Multi-File Upload with Collections' ?></legend>
+
+    <?php
+    $elem = $form->get('text');
+    $elem->setLabelAttributes(array('class' => 'control-label'));
+    $errors = $elem->getMessages();
+    $errorClass = (!empty($errors)) ? ' error' : '';
+    ?>
+    <div class="control-group<?php echo $errorClass ?>">
+        <?php echo $this->formLabel($elem); ?>
+        <div class="controls">
+            <?php echo $this->formText($elem); ?>
+            <?php echo $errorsHelper($elem); ?>
+        </div>
+    </div>
+
+    <?php
+    $collection = $form->get('file-collection');
+    foreach ($collection as $elem) {
+        $elem->setLabelAttributes(array('class' => 'control-label'));
+        $errors = $elem->getMessages();
+        $errorClass = (!empty($errors)) ? ' error' : '';
+        ?>
+        <div class="control-group<?php echo $errorClass ?>">
+            <?php echo $this->formLabel($elem); ?>
+            <div class="controls">
+                <?php echo $this->formFile($elem); ?>
+                <?php echo $errorsHelper($elem); ?>
+            </div>
+        </div>
+        <?php
+    }
+    ?>
+    <?php if (!empty($this->tempFiles)) { ?>
+    <div class="control-group"><div class="controls">
+        <div class="help-block">
+            Uploaded: <ul>
+            <?php foreach ($this->tempFiles as $tempFile) { ?>
+            <li><?php echo $this->escapeHtml($tempFile['name']) ?></li>
+            <?php } ?>
+            </ul>
+        </div>
+    </div></div>
+    <?php } ?>
+
+    <div class="control-group">
+        <div class="controls">
+            <button class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+
+</fieldset>
+<?php echo $this->form()->closeTag($form); ?>

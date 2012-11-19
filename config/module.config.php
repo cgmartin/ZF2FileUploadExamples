@@ -60,6 +60,17 @@ return array(
                                     ),
                                 ),
                             ),
+
+                            'collection' => array(
+                                'type'    => 'Literal',
+                                'options' => array(
+                                    'route'    => '/collection',
+                                    'defaults' => array(
+                                        'controller'    => 'fileupload_basicexamples',
+                                        'action'        => 'collection',
+                                    ),
+                                ),
+                            ),
                         ),
                     ),
                     //

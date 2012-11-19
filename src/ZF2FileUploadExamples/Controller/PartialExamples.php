@@ -17,8 +17,7 @@ class PartialExamples extends BasicExamples
     public function singleAction()
     {
         $form = new Form\SingleUpload('file-form');
-        $inputFilter = new InputFilter\FileUpload();
-        $form->setInputFilter($inputFilter);
+        $inputFilter = $form->getInputFilter();
 
         if ($this->getRequest()->isPost()) {
             // POST Request: Process form

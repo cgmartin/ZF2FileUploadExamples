@@ -17,7 +17,6 @@ class PrgExamples extends BasicExamples
     public function singleAction()
     {
         $form = new Form\SingleUpload('file-form');
-        $form->setInputFilter(new InputFilter\FileUpload());
 
         $prg = $this->fileprg($form, 'fileupload/prg/single');
         if ($prg instanceof \Zend\Http\PhpEnvironment\Response) {
