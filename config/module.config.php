@@ -2,9 +2,8 @@
 return array(
     'controllers' => array(
         'invokables' => array(
-            'fileupload_basicexamples'   => 'ZF2FileUploadExamples\Controller\BasicExamples',
-            'fileupload_partialexamples' => 'ZF2FileUploadExamples\Controller\PartialExamples',
-            'fileupload_prgexamples'     => 'ZF2FileUploadExamples\Controller\PrgExamples',
+            'fileupload_examples'    => 'ZF2FileUploadExamples\Controller\Examples',
+            'fileupload_prgexamples' => 'ZF2FileUploadExamples\Controller\PrgExamples',
         ),
     ),
     'router' => array(
@@ -14,7 +13,7 @@ return array(
                 'options' => array(
                     'route'    => '/file-upload-examples',
                     'defaults' => array(
-                        'controller'    => 'fileupload_basicexamples',
+                        'controller'    => 'fileupload_examples',
                         'action'        => 'index',
                     ),
                 ),
@@ -25,75 +24,56 @@ return array(
                         'options' => array(
                             'route'    => '/success',
                             'defaults' => array(
-                                'controller'    => 'fileupload_basicexamples',
+                                'controller'    => 'fileupload_examples',
                                 'action'        => 'success',
                             ),
                         ),
                     ),
-                    //
-                    // SIMPLE EXAMPLES
-                    //
-                    'simple' => array(
+
+                    'single' => array(
                         'type'    => 'Literal',
                         'options' => array(
-                            'route'    => '/simple',
-                        ),
-                        'child_routes' => array(
-                            'single' => array(
-                                'type'    => 'Literal',
-                                'options' => array(
-                                    'route'    => '/single',
-                                    'defaults' => array(
-                                        'controller'    => 'fileupload_basicexamples',
-                                        'action'        => 'single',
-                                    ),
-                                ),
-                            ),
-
-                            'multi-html5' => array(
-                                'type'    => 'Literal',
-                                'options' => array(
-                                    'route'    => '/multi-html5',
-                                    'defaults' => array(
-                                        'controller'    => 'fileupload_basicexamples',
-                                        'action'        => 'multi-html5',
-                                    ),
-                                ),
-                            ),
-
-                            'collection' => array(
-                                'type'    => 'Literal',
-                                'options' => array(
-                                    'route'    => '/collection',
-                                    'defaults' => array(
-                                        'controller'    => 'fileupload_basicexamples',
-                                        'action'        => 'collection',
-                                    ),
-                                ),
+                            'route'    => '/single',
+                            'defaults' => array(
+                                'controller'    => 'fileupload_examples',
+                                'action'        => 'single',
                             ),
                         ),
                     ),
-                    //
-                    // PARTIAL VALIDATION EXAMPLES
-                    //
+
+                    'multi-html5' => array(
+                        'type'    => 'Literal',
+                        'options' => array(
+                            'route'    => '/multi-html5',
+                            'defaults' => array(
+                                'controller'    => 'fileupload_examples',
+                                'action'        => 'multi-html5',
+                            ),
+                        ),
+                    ),
+
+                    'collection' => array(
+                        'type'    => 'Literal',
+                        'options' => array(
+                            'route'    => '/collection',
+                            'defaults' => array(
+                                'controller'    => 'fileupload_examples',
+                                'action'        => 'collection',
+                            ),
+                        ),
+                    ),
+
                     'partial' => array(
                         'type'    => 'Literal',
                         'options' => array(
                             'route'    => '/partial',
-                        ),
-                        'child_routes' => array(
-                            'single' => array(
-                                'type'    => 'Literal',
-                                'options' => array(
-                                    'route'    => '/single',
-                                    'defaults' => array(
-                                        'controller'    => 'fileupload_partialexamples',
-                                        'action'        => 'single',
-                                    ),
-                                ),
+                            'defaults' => array(
+                                'controller'    => 'fileupload_examples',
+                                'action'        => 'partial',
                             ),
                         ),
                     ),
+
                     //
                     // PRG PLUGIN EXAMPLES
                     //

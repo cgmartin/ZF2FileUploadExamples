@@ -8,7 +8,7 @@ use Zend\Debug\Debug;
 use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
 
-class PrgExamples extends BasicExamples
+class PrgExamples extends Examples
 {
     /**
      * Example of a single file upload form w/ Post-Redirect-Get plugin.
@@ -50,7 +50,7 @@ class PrgExamples extends BasicExamples
             'title' => 'Post/Redirect/Get Example',
             'form'  => $form,
         ));
-        $view->setTemplate('zf2-file-upload-examples/basic-examples/single');
+        $view->setTemplate('zf2-file-upload-examples/examples/single');
         return $view;
     }
 }
