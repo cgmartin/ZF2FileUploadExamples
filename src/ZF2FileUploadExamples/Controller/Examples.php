@@ -159,8 +159,10 @@ class Examples extends AbstractActionController
      */
     public function partialAction()
     {
-        $form = new Form\SingleUpload('file-form');
+        $form        = new Form\SingleUpload('file-form');
         $inputFilter = $form->getInputFilter();
+        $container   = new Container('partialExample');
+        $tempFile    = $container->partialTempFile;
 
         if ($this->getRequest()->isPost()) {
             // POST Request: Process form
@@ -170,7 +172,7 @@ class Examples extends AbstractActionController
             );
 
             // Disable required file input if we already have an upload
-            if (isset($this->sessionContainer->partialTempFile)) {
+            if (isset($tempFile)) {
                 $inputFilter->get('file')->setRequired(false);
             }
 
@@ -179,41 +181,39 @@ class Examples extends AbstractActionController
                 // If we did not get a new file upload this time around, use the temp file
                 $data = $form->getData();
                 if (empty($data['file'])) {
-                    $data['file'] = $this->sessionContainer->partialTempFile['tmp_name'];
+                    $data['file'] = $tempFile['tmp_name'];
                 }
 
                 //
                 // ...Save the form...
                 //
 
-                // Clear temp file from session
-                unset($this->sessionContainer->partialTempFile);
-
                 return $this->redirectToSuccessPage($data);
             } else {
+                // Extend the session
+                $container->setExpirationHops(1, 'partialTempFile');
+
                 // Form was not valid, but the file input might be...
                 // Save file to a temporary file if valid.
                 $data = $form->getData();
                 if (!empty($data['file'])) {
                     // NOTE: $data['file'] contains the filtered file path
-                    $fileData = $form->get('file')->getValue(); // Get the raw file upload array value
+                    $tempFile = $form->get('file')->getValue(); // Get the raw file upload array value
                     $tempFilePath = './data/tmpuploads/partial-' . uniqid(true);
                     move_uploaded_file($data['file'], $tempFilePath);
-                    $fileData['tmp_name'] = $tempFilePath;
-                    $this->sessionContainer->partialTempFile = $fileData;
+                    $tempFile['tmp_name'] = $tempFilePath;
+                    $container->partialTempFile = $tempFile;
                 }
             }
         } else {
             // GET Request: Clear previous temp file from session
-            unset($this->sessionContainer->partialTempFile);
+            unset($container->partialTempFile);
         }
 
         $view = new ViewModel(array(
            'title'     => 'Partial Validation Examples',
            'form'      => $form,
-           'tempFiles' => (isset($this->sessionContainer->partialTempFile))
-               ? array($this->sessionContainer->partialTempFile)
-               : null,
+           'tempFiles' => (isset($tempFile)) ? array($tempFile) : null,
         ));
         $view->setTemplate('zf2-file-upload-examples/examples/single');
         return $view;
