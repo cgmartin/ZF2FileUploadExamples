@@ -5,8 +5,6 @@ namespace ZF2FileUploadExamples\Form;
 use Zend\InputFilter;
 use Zend\Form\Form;
 use Zend\Form\Element;
-use Zend\Validator\File\Upload as FileUploadValidator;
-use Zend\Validator\File\Explode as FileExplodeValidator;
 
 class MultiHtml5Upload extends Form
 {
@@ -39,10 +37,6 @@ class MultiHtml5Upload extends Form
         // File Input
         $file = new InputFilter\FileInput('file');
         $file->setRequired(true);
-        $validator = new FileExplodeValidator(array(
-           'validator' => new FileUploadValidator()
-        ));
-        $file->getValidatorChain()->addValidator($validator);
         $inputFilter->add($file);
 
         // Text Input

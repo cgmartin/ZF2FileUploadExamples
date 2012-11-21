@@ -5,7 +5,6 @@ namespace ZF2FileUploadExamples\Form;
 use Zend\InputFilter;
 use Zend\Form\Form;
 use Zend\Form\Element;
-use Zend\Validator\File\Upload as FileUploadValidator;
 
 class CollectionUpload extends Form
 {
@@ -48,8 +47,6 @@ class CollectionUpload extends Form
         for ($i = 0; $i < $this->numFileElements; $i++) {
             $file = new InputFilter\FileInput($i);
             $file->setRequired(true);
-            $validator = new FileUploadValidator();
-            $file->getValidatorChain()->addValidator($validator);
             $fileCollection->add($file);
         }
         $inputFilter->add($fileCollection, 'file-collection');
