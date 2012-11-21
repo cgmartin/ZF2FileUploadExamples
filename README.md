@@ -14,10 +14,9 @@ Examples
 * Using a single File element.
 * Using multiple File elements in a Collection.
 * Using a single File element with the HTML5 "multiple" attribute.
-* Using file uploads with the Post-Redirect-Get plugin.
 * Temporarily save uploaded file(s) until a form is completely valid.
-* Using AJAX to upload files and displaying progress with PHP5's [Session Upload Progress](http://www.php.net/manual/en/session.upload-progress.php). **TODO**
-* "Real-world" Image Gallery example. **TODO**
+* Using file uploads with the Post-Redirect-Get plugin. **(WORK-IN-PROGRESS)**
+* Using AJAX to upload files and displaying progress with PHP5's [Session Upload Progress](http://www.php.net/manual/en/session.upload-progress.php). **(TODO)**
 
 See the [Example Controllers](https://github.com/cgmartin/ZF2FileUploadExamples/tree/master/src/ZF2FileUploadExamples/Controller) for more details.
 
