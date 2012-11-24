@@ -2,8 +2,9 @@
 return array(
     'controllers' => array(
         'invokables' => array(
-            'fileupload_examples'    => 'ZF2FileUploadExamples\Controller\Examples',
-            'fileupload_prgexamples' => 'ZF2FileUploadExamples\Controller\PrgExamples',
+            'fileupload_examples'         => 'ZF2FileUploadExamples\Controller\Examples',
+            'fileupload_prgexamples'      => 'ZF2FileUploadExamples\Controller\PrgExamples',
+            'fileupload_progressexamples' => 'ZF2FileUploadExamples\Controller\ProgressExamples',
         ),
     ),
     'router' => array(
@@ -96,6 +97,37 @@ return array(
                         ),
                     ),
 
+                    //
+                    // PRG PLUGIN EXAMPLES
+                    //
+                    'progress' => array(
+                        'type'    => 'Literal',
+                        'options' => array(
+                            'route'    => '/progress',
+                        ),
+                        'child_routes' => array(
+                            'session' => array(
+                                'type'    => 'Literal',
+                                'options' => array(
+                                    'route'    => '/session',
+                                    'defaults' => array(
+                                        'controller'    => 'fileupload_progressexamples',
+                                        'action'        => 'session',
+                                    ),
+                                ),
+                            ),
+                            'session-progress' => array(
+                                'type'    => 'Literal',
+                                'options' => array(
+                                    'route'    => '/session-progress',
+                                    'defaults' => array(
+                                        'controller'    => 'fileupload_progressexamples',
+                                        'action'        => 'session-progress',
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
                 ),
             ),
         ),
@@ -103,6 +135,9 @@ return array(
     'view_manager' => array(
         'template_path_stack' => array(
             'fileupload' => __DIR__ . '/../view',
+        ),
+        'strategies' => array(
+            'ViewJsonStrategy',
         ),
     ),
 );

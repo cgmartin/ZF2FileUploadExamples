@@ -16,10 +16,11 @@ Examples
 * Using a single File element with the HTML5 "multiple" attribute.
 * Temporarily save uploaded file(s) until a form is completely valid.
 * Using file uploads with the Post-Redirect-Get plugin. **(WORK-IN-PROGRESS)**
-* Using AJAX to upload files and displaying progress with PHP5's [Session Upload Progress](http://www.php.net/manual/en/session.upload-progress.php). **(TODO)**
+* Using AJAX to upload files and displaying progress with PHP5's [Session Upload Progress](http://www.php.net/manual/en/session.upload-progress.php).
 
 See the [Example Controllers](https://github.com/cgmartin/ZF2FileUploadExamples/tree/master/src/ZF2FileUploadExamples/Controller) for more details.
 
+![Example screenshot](http://grab.by/hKOu)
 
 Installation
 ------------
@@ -30,3 +31,9 @@ Installation
 3. Create a `./data/tmpuploads` directory, and make writeable by the webserver.
 4. Navigate to `/file-upload-examples` in your browser to see the list of examples.
 
+You may also need to change php.ini settings:
+```ini
+post_max_size = 50M
+upload_max_filesize = 50M
+session.upload_progress.enabled = On
+```
