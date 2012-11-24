@@ -27,10 +27,8 @@ class ProgressUpload extends Form
             ));
         $this->add($file);
 
-        // Progress ID
-        $progressId = new Element\File\SessionProgress();
-        $this->add($progressId);
-        $this->byName['progressId'] = $progressId; // Add an alias for the view
+        // Progress ID hidden input is only added with a view helper,
+        // not as an element to the form.
     }
 
     public function createInputFilter()
