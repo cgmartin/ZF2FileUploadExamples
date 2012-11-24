@@ -28,7 +28,7 @@ class ProgressUpload extends Form
         $this->add($file);
 
         // Progress ID
-        $progressId = new Element\File\UploadProgress();
+        $progressId = new Element\File\SessionProgress();
         $this->add($progressId);
         $this->byName['progressId'] = $progressId; // Add an alias for the view
     }
