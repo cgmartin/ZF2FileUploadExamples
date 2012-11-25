@@ -199,7 +199,7 @@ class Examples extends AbstractActionController
                 if (!empty($data['file'])) {
                     // NOTE: $data['file'] contains the filtered file path
                     $tempFile = $form->get('file')->getValue(); // Get the raw file upload array value
-                    $tempFilePath = './data/tmpuploads/partial-' . uniqid(true);
+                    $tempFilePath = './data/tmpuploads/partial' . uniqid('-', true);
                     move_uploaded_file($data['file'], $tempFilePath);
                     $tempFile['tmp_name'] = $tempFilePath;
                     $container->partialTempFile = $tempFile;
