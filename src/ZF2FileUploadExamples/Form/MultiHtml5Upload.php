@@ -20,7 +20,7 @@ class MultiHtml5Upload extends Form
         // File Input
         $file = new Element\File('file');
         $file
-            ->setLabel('File Input')
+            ->setLabel('Multi-File Input')
             ->setAttributes(array('multiple' => true));
         $this->add($file);
 
@@ -37,6 +37,16 @@ class MultiHtml5Upload extends Form
         // File Input
         $file = new InputFilter\FileInput('file');
         $file->setRequired(true);
+        $file->getFilterChain()->attachByName(
+            'filerenameupload',
+            array(
+                'target'    => './data/tmpuploads/file',
+                'randomize' => true,
+            )
+        );
+        //$file->getValidatorChain()->addByName(
+        //    'fileextension', array('extension' => 'txt')
+        //);
         $inputFilter->add($file);
 
         // Text Input

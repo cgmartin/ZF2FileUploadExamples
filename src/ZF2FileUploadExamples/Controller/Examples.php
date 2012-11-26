@@ -28,7 +28,7 @@ class Examples extends AbstractActionController
         // such as using "tmpwatch" or "tmpreaper" linux commands.
         // Do not use this in a real site. It's a quick & dirty cleanup method for
         // the purposes of the example.
-        array_map('unlink', glob('./data/tmpuploads/partial-*'));
+        array_map('unlink', glob('./data/tmpuploads/*'));
 
         return array();
     }
@@ -199,7 +199,7 @@ class Examples extends AbstractActionController
                 if (!empty($data['file'])) {
                     // NOTE: $data['file'] contains the filtered file path
                     $tempFile = $form->get('file')->getValue(); // Get the raw file upload array value
-                    $tempFilePath = './data/tmpuploads/partial' . uniqid('-', true);
+                    $tempFilePath = './data/tmpuploads/partial' . uniqid('_');
                     move_uploaded_file($data['file'], $tempFilePath);
                     $tempFile['tmp_name'] = $tempFilePath;
                     $container->partialTempFile = $tempFile;
@@ -208,6 +208,7 @@ class Examples extends AbstractActionController
         } else {
             // GET Request: Clear previous temp file from session
             unset($container->partialTempFile);
+            $tempFile = null;
         }
 
         $view = new ViewModel(array(

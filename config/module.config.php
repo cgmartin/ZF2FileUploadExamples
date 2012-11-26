@@ -84,13 +84,13 @@ return array(
                             'route'    => '/prg',
                         ),
                         'child_routes' => array(
-                            'single' => array(
+                            'multi-html5' => array(
                                 'type'    => 'Literal',
                                 'options' => array(
-                                    'route'    => '/single',
+                                    'route'    => '/multi-html5',
                                     'defaults' => array(
                                         'controller'    => 'fileupload_prgexamples',
-                                        'action'        => 'single',
+                                        'action'        => 'multi-html5',
                                     ),
                                 ),
                             ),

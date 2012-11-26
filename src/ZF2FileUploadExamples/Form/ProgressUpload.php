@@ -22,7 +22,7 @@ class ProgressUpload extends Form
         $file
             ->setLabel('File Input')
             ->setAttributes(array(
-                'id' => 'file',
+                'id'       => 'file',
                 'multiple' => true
             ));
         $this->add($file);
@@ -38,6 +38,13 @@ class ProgressUpload extends Form
         // File Input
         $file = new InputFilter\FileInput('file');
         $file->setRequired(true);
+        $file->getFilterChain()->attachByName(
+            'filerenameupload',
+            array(
+                'target'    => './data/tmpuploads/file',
+                'randomize' => true,
+            )
+        );
         $inputFilter->add($file);
 
         return $inputFilter;

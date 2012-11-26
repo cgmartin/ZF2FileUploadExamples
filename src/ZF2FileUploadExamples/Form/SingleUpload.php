@@ -35,6 +35,13 @@ class SingleUpload extends Form
         // File Input
         $file = new InputFilter\FileInput('file');
         $file->setRequired(true);
+        $file->getFilterChain()->attachByName(
+            'filerenameupload',
+            array(
+                'target'    => './data/tmpuploads/file',
+                'randomize' => true,
+            )
+        );
         $inputFilter->add($file);
 
         // Text Input

@@ -47,6 +47,13 @@ class CollectionUpload extends Form
         for ($i = 0; $i < $this->numFileElements; $i++) {
             $file = new InputFilter\FileInput($i);
             $file->setRequired(true);
+            $file->getFilterChain()->attachByName(
+                'filerenameupload',
+                array(
+                    'target'    => './data/tmpuploads/file',
+                    'randomize' => true,
+                )
+            );
             $fileCollection->add($file);
         }
         $inputFilter->add($fileCollection, 'file-collection');
