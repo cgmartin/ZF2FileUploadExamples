@@ -24,8 +24,8 @@ class PrgExamples extends Examples
         $prg = $this->fileprg($form);
         if ($prg instanceof \Zend\Http\PhpEnvironment\Response) {
             return $prg; // Return PRG redirect response
-        } elseif ($prg instanceof \stdClass) {
-            if ($prg->isValid) {
+        } elseif (is_array($prg)) {
+            if ($form->isValid()) {
 
                 //
                 // ...Save the form...
