@@ -36,11 +36,15 @@ Installation
    `./public/js/jquery.form.js` (for the Upload Progress example).
 4. Navigate to `/file-upload-examples` in your browser to see the list of examples.
 
-You may also need to change these `php.ini` settings:
+You may also need to change/verify these `php.ini` settings:
 ```ini
+file_uploads = On
 post_max_size = 50M
 upload_max_filesize = 50M
 session.upload_progress.enabled = On
+session.upload_progress.freq =  "1%"
+session.upload_progress.min_freq = "1"
+; Also make certain 'upload_tmp_dir' is writeable
 ```
 
 
