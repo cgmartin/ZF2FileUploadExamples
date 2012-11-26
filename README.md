@@ -12,16 +12,17 @@ and requires the following patches:
 Examples
 --------
 
-**WORK-IN-PROGRESS: Not all examples are complete**
-
 * Using a single File element.
 * Using multiple File elements in a Collection.
 * Using a single File element with the HTML5 "multiple" attribute.
 * Temporarily save uploaded file(s) until a form is completely valid.
-* Using file uploads with the Post-Redirect-Get plugin. **(WORK-IN-PROGRESS)**
+* Using file uploads with the Post-Redirect-Get plugin.
 * Using AJAX to upload files and displaying progress with PHP5's [Session Upload Progress](http://www.php.net/manual/en/session.upload-progress.php).
 
 See the [Example Controllers](https://github.com/cgmartin/ZF2FileUploadExamples/tree/master/src/ZF2FileUploadExamples/Controller) for more details.
+
+If there is a use-case for File uploads that you'd like to see and isn't currently included here,
+please create a GitHub issue.
 
 
 Installation
