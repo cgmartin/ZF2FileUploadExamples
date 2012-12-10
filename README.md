@@ -5,8 +5,11 @@ A set of form file upload examples in a Zend Framework 2 module.
 
 *NOTE:* Currently only compatible with the [develop ZF2 branch](https://github.com/zendframework/zf2/tree/develop),
 and requires the following patches:
-[Multi-File Input Filtering](https://github.com/zendframework/zf2/pull/3010),
-[Session Progress fixes](https://github.com/zendframework/zf2/pull/3058).
+
+* [Multi-File Input Filtering](https://github.com/zendframework/zf2/pull/3010),
+* [Session Progress fixes](https://github.com/zendframework/zf2/pull/3058).
+
+My [ZF2 test/file-uploads branch](https://github.com/cgmartin/zf2/tree/test/file-uploads) includes both patches. 
 
 
 Examples
