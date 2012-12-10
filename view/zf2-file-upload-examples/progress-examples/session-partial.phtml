@@ -1,0 +1,206 @@
+<style>
+    #progress {
+        width: 250px;
+        display: none;
+    }
+    .progress {
+        margin-bottom: 5px;
+    }
+    #file-errors {
+        display: none;
+    }
+</style>
+
+<div>
+    <a href="<?php echo $this->url('fileupload')?>">&laquo; Back to Examples Listing</a>
+</div>
+
+<h2><?php echo ($this->title) ?: 'File Upload Examples' ?></h2>
+
+<?php
+
+// Configure Errors Helper
+$errorsHelper  = $this->plugin('formelementerrors');
+$errorsHelper
+    ->setMessageOpenFormat('<div class="help-block">')
+    ->setMessageSeparatorString('</div><div class="help-block">')
+    ->setMessageCloseString('</div>');
+
+// Init Form
+$form = $this->form;
+$form->setAttribute('class', 'form-horizontal');
+$form->setAttribute('action', $this->url('fileupload/progress/session_partial'));
+$form->prepare();
+?>
+<?php echo $this->form()->openTag($form); ?>
+<fieldset>
+    <legend><?php echo ($this->legend) ?: 'Progress Upload' ?></legend>
+    <?php echo $this->formFileSessionProgress(); ?>
+
+    <?php
+    $elem = $form->get('text');
+    $elem->setLabelAttributes(array('class' => 'control-label'));
+    $errors = $elem->getMessages();
+    $errorClass = (!empty($errors)) ? ' error' : '';
+    ?>
+    <div class="control-group<?php echo $errorClass ?>">
+        <?php echo $this->formLabel($elem); ?>
+        <div class="controls">
+            <?php echo $this->formText($elem); ?>
+            <?php echo $errorsHelper($elem); ?>
+        </div>
+    </div>
+
+    <?php
+    $elem = $form->get('file');
+    $elem->setLabelAttributes(array('class' => 'control-label'));
+    ?>
+    <div id="file-controls" class="control-group">
+        <?php echo $this->formLabel($elem); ?>
+        <div class="controls">
+            <?php echo $this->formFile($elem); ?>
+
+            <div id="file-errors" class="help-block"></div>
+
+            <div id="progress" class="help-block">
+                <div class="progress progress-info progress-striped active">
+                    <div class="bar"></div>
+                </div>
+                <p></p>
+            </div>
+            <?php echo $errorsHelper($elem); ?>
+            <?php if (!empty($this->tempFiles)) { ?>
+                <!--
+                Note: You might not want to render the file input in this
+                case either, depending on your use-case.
+                -->
+                <div class="help-block">
+                    Uploaded: <ul>
+                        <?php foreach ($this->tempFiles as $tempFile) { ?>
+                            <li><?php echo $this->escapeHtml($tempFile['name']) ?></li>
+                        <?php } ?>
+                    </ul>
+                </div>
+            <?php } ?>
+        </div>
+    </div>
+
+    <div id="action-buttons" class="control-group">
+        <div class="controls">
+            <button class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+
+    <div id="output"></div>
+
+</fieldset>
+<?php echo $result; ?>
+<?php echo $this->form()->closeTag($form); ?>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/jquery.form.js"></script>
+<script>
+
+    /**
+     * Error Message functions
+     */
+    function hideErrors() {
+        $('#file-controls').removeClass('error');
+        $('#file-errors').hide();
+    }
+
+    function showErrors(message) {
+        $('#file-controls').addClass('error');
+        $('#file-errors').show().html(message);
+    }
+
+    function hideFormElements() {
+        $('#file').hide();
+        $('#action-buttons').hide();
+    }
+
+    function showFormElements() {
+        $('#file').show();
+        $('#action-buttons').show();
+    }
+
+    /**
+     * Progress Bar functions
+     */
+    var progressInterval;
+
+    function hideProgress() {
+        $('#progress').hide();
+    }
+
+    function showProgress(amount, message) {
+        $('#progress').show();
+        $('#progress .bar').width(amount + '%');
+        $('#progress > p').html(message);
+        if (amount < 100) {
+            $('#progress .progress')
+                .addClass('active')
+                .addClass('progress-info')
+                .removeClass('progress-success');
+        } else {
+            $('#progress .progress')
+                .removeClass('active')
+                .removeClass('progress-info')
+                .addClass('progress-success');
+        }
+    }
+
+    function getProgress() {
+        var url = '/file-upload-examples/progress/session-progress?id=' + $('#progress_key').val();
+        $.getJSON(url, function(data) {
+            //console.log(data);
+            if (data.status && !data.status.done) {
+                var value = Math.floor((data.status.current / data.status.total) * 100);
+                showProgress(value, 'Uploading...');
+            } else {
+                showProgress(100, 'Complete!');
+                clearInterval(progressInterval);
+                showFormElements();
+            }
+        });
+    }
+
+    function startProgress() {
+        hideFormElements();
+        showProgress(0, 'Starting upload...');
+        progressInterval = setInterval(getProgress, 900);
+    }
+
+    /**
+     * On Ready...
+     */
+    $(function() {
+        var submitFunction = function(e) {
+                e.preventDefault();
+
+                hideErrors();
+                hideProgress();
+
+                //$.fn.ajaxSubmit.debug = true;
+                $(this).ajaxSubmit({
+                    target: null,
+                    success: function (responseText, statusText, xhr, $form) {
+                        clearInterval(progressInterval);
+                        $($form).replaceWith($('form', $(responseText)));
+                        hideErrors();
+                        hideProgress();
+                    },
+                    error: function(a, b, c) {
+                        console.log(a, b, c);
+                    }
+                });
+
+                if ($('#file').val() != '') {
+                    startProgress();
+                }
+            }
+
+        $('#file-form').live('submit', submitFunction);
+    });
+</script>

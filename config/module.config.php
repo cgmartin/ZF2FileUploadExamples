@@ -116,6 +116,16 @@ return array(
                                     ),
                                 ),
                             ),
+                            'session_partial' => array(
+                                'type'    => 'Literal',
+                                'options' => array(
+                                    'route'    => '/session-partial',
+                                    'defaults' => array(
+                                        'controller'    => 'fileupload_progressexamples',
+                                        'action'        => 'session-partial',
+                                    ),
+                                ),
+                            ),
                             'session-progress' => array(
                                 'type'    => 'Literal',
                                 'options' => array(
