@@ -27,13 +27,13 @@ please create a GitHub issue.
 Installation
 ------------
 
-1. Install the [ZendSkeletonApplication](https://github.com/zendframework/ZendSkeletonApplication)
-2. Clone this project into your `./vendor/` directory and enable `ZF2FileUploadExamples` in your
-   `application.config.php` file.
+1. Install the [ZendSkeletonApplication](https://github.com/zendframework/ZendSkeletonApplication).
+2. Clone this project into your `./vendor/` directory (or use composer, see below)
+   and enable `ZF2FileUploadExamples` in your `application.config.php` file.
 3. Create a `./data/tmpuploads` directory, and make writeable by the webserver.
 4. Download the [jQuery Form plugin](https://github.com/malsup/form) into
    `./public/js/jquery.form.js` (for the Upload Progress example).
-4. Navigate to `/file-upload-examples` in your browser to see the list of examples.
+5. Navigate to `/file-upload-examples` in your browser to see the list of examples.
 
 You may also need to change/verify these `php.ini` settings:
 ```ini
@@ -46,6 +46,16 @@ session.upload_progress.min_freq = "1"
 ; Also make certain 'upload_tmp_dir' is writeable
 ```
 
+###Composer###
+
+```json
+{
+    "minimum-stability": "dev",
+    "require": {
+        "cgm/zf2-file-upload-examples": "dev-master"
+    }
+}
+```
 
 Screenshot
 ----------
