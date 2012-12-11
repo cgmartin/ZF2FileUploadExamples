@@ -15,8 +15,8 @@ Examples
 * Using a single File element with the HTML5 "multiple" attribute.
 * Temporarily save uploaded file(s) until a form is completely valid.
 * Using file uploads with the Post-Redirect-Get plugin.
-* Using AJAX to upload files and displaying progress with PHP5's [Session Upload Progress](http://www.php.net/manual/en/session.upload-progress.php).
-* Complex example using [Session Upload Progress](http://www.php.net/manual/en/session.upload-progress.php) with a partially valid form.
+* Using AJAX to upload files and displaying progress with [Session Upload Progress](http://www.php.net/manual/en/session.upload-progress.php) (Requires PHP 5.4).
+* Complex example using [Session Upload Progress](http://www.php.net/manual/en/session.upload-progress.php) with a partially valid form (Requires PHP 5.4).
 
 See the [Example Controllers](https://github.com/cgmartin/ZF2FileUploadExamples/tree/master/src/ZF2FileUploadExamples/Controller) for more details.
 
