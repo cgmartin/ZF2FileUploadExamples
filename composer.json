@@ -22,7 +22,7 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "2.1.x-dev"
+        "zendframework/zendframework": "dev-develop"
     },
     "autoload": {
         "psr-0": {
