@@ -3,7 +3,8 @@ ZF2 File Upload Examples Module
 
 A set of form file upload examples in a Zend Framework 2 module.
 
-*NOTE:* Currently only compatible with the [develop ZF2 branch](https://github.com/zendframework/zf2/tree/develop).
+*NOTE:* Currently only compatible with the [develop ZF2 branch](https://github.com/zendframework/zf2/tree/develop),
+and this [patch](https://github.com/zendframework/zf2/pull/3199).
 
 
 Examples
@@ -15,6 +16,7 @@ Examples
 * Temporarily save uploaded file(s) until a form is completely valid.
 * Using file uploads with the Post-Redirect-Get plugin.
 * Using AJAX to upload files and displaying progress with PHP5's [Session Upload Progress](http://www.php.net/manual/en/session.upload-progress.php).
+* Complex example using [Session Upload Progress](http://www.php.net/manual/en/session.upload-progress.php) with a partially valid form.
 
 See the [Example Controllers](https://github.com/cgmartin/ZF2FileUploadExamples/tree/master/src/ZF2FileUploadExamples/Controller) for more details.
 
