@@ -1,5 +1,5 @@
 {
-    "name": "cgmartin/ZF2FileUploadExamples",
+    "name": "cgmartin/zf2-file-upload-examples",
     "description": "Form file upload examples for Zend Framework 2",
     "version": "1.0.0",
     "type": "module",
