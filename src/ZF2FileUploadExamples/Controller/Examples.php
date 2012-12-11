@@ -197,11 +197,10 @@ class Examples extends AbstractActionController
                 // Save file to a temporary file if valid.
                 $data = $form->getData();
                 if (!empty($data['file'])) {
-                    // NOTE: $data['file'] contains the filtered file path
-                    $tempFile = $form->get('file')->getValue(); // Get the raw file upload array value
-                    $tempFilePath = './data/tmpuploads/partial' . uniqid('_');
-                    move_uploaded_file($data['file'], $tempFilePath);
-                    $tempFile['tmp_name'] = $tempFilePath;
+                    // NOTE: $data['file'] contains the filtered file path.
+                    // 'FileRenameUpload' Filter has been run, and moved the file.
+                    // Get the raw file upload array value
+                    $tempFile = $form->get('file')->getValue();
                     $container->partialTempFile = $tempFile;
                 }
             }

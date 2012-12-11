@@ -48,7 +48,7 @@ class ProgressExamples extends Examples
      */
     public function sessionPartialAction()
     {
-        $form = new Form\SingleUpload('file-form');
+        $form        = new Form\SingleUpload('file-form');
         $inputFilter = $form->getInputFilter();
         $container   = new Container('partialExample');
         $tempFile    = $container->partialTempFile;

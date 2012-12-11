@@ -23,7 +23,7 @@ class ProgressUpload extends Form
             ->setLabel('File Input')
             ->setAttributes(array(
                 'id'       => 'file',
-                'multiple' => false
+                'multiple' => true,
             ));
         $this->add($file);
 
