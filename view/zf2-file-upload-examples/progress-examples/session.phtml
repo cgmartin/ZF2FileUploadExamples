@@ -27,9 +27,19 @@ $form->prepare();
 <?php echo $this->form()->openTag($form); ?>
 <fieldset>
     <legend><?php echo ($this->legend) ?: 'Progress Upload' ?></legend>
-    <?php echo $this->formFileSessionProgress(); ?>
 
     <?php
+    //
+    // Progress id hidden field.
+    // *NOTE* The hidden element MUST be before the file elements.
+    //
+    echo $this->formFileSessionProgress();
+    ?>
+
+    <?php
+    //
+    // File Input
+    //
     $elem = $form->get('file');
     $elem->setLabelAttributes(array('class' => 'control-label'));
     ?>
@@ -124,13 +134,11 @@ $form->prepare();
             } else {
                 showProgress(100, 'Complete!');
                 clearInterval(progressInterval);
-                showFormElements();
             }
         });
     }
 
     function startProgress() {
-        hideFormElements();
         showProgress(0, 'Starting upload...');
         progressInterval = setInterval(getProgress, 900);
     }
@@ -142,6 +150,7 @@ $form->prepare();
         $('#file-form').on('submit', function(e) {
             e.preventDefault();
 
+            hideFormElements();
             hideErrors();
             hideProgress();
 
@@ -153,8 +162,12 @@ $form->prepare();
             //$.fn.ajaxSubmit.debug = true;
             $(this).ajaxSubmit({
                 target: '#output',
+                success: function (response, statusText, xhr, $form) {
+                    showFormElements();
+                },
                 error: function(a, b, c) {
                     console.log(a, b, c);
+                    showFormElements();
                 }
             });
             startProgress();

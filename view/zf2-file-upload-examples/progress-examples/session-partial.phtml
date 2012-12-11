@@ -20,7 +20,6 @@
 <h2><?php echo ($this->title) ?: 'File Upload Examples' ?></h2>
 
 <?php
-
 // Configure Errors Helper
 $errorsHelper  = $this->plugin('formelementerrors');
 $errorsHelper
@@ -37,9 +36,19 @@ $form->prepare();
 <?php echo $this->form()->openTag($form); ?>
 <fieldset>
     <legend><?php echo ($this->legend) ?: 'Progress Upload' ?></legend>
-    <?php echo $this->formFileSessionProgress(); ?>
 
     <?php
+    //
+    // Progress id hidden field.
+    // *NOTE* The hidden element MUST be before the file elements.
+    //
+    echo $this->formFileSessionProgress();
+    ?>
+
+    <?php
+    //
+    // Text Input
+    //
     $elem = $form->get('text');
     $elem->setLabelAttributes(array('class' => 'control-label'));
     $errors = $elem->getMessages();
@@ -55,6 +64,9 @@ $form->prepare();
     </div>
 
     <?php
+    //
+    // File Input
+    //
     $elem = $form->get('file');
     $elem->setLabelAttributes(array('class' => 'control-label'));
     $errors = $elem->getMessages();
@@ -221,8 +233,11 @@ $form->prepare();
                     // form data array is an array of objects with name and value properties
                     // [ { name: 'username', value: 'jresig' }, { name: 'password', value: 'secret' } ]
 
-                    // Remove the file progress id if no file being uploaded
-                    // (causes backend errors otherwise)
+                    // Remove the file progress id if no file being uploaded,
+                    // otherwise you will see backend errors:
+                    //   "PHP Warning:  Unknown: The session id is too long or contains illegal characters,
+                    //    valid characters are a-z, A-Z, 0-9 and '-,' in Unknown on line 0"
+                    // http://php.net/manual/en/session.upload-progress.php
                     if ($('#file').val() == '') {
                         removeProgressKeyFromPostArray(arr);
                     }
