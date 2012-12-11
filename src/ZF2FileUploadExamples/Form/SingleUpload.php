@@ -19,7 +19,11 @@ class SingleUpload extends Form
     {
         // File Input
         $file = new Element\File('file');
-        $file->setLabel('File Input');
+        $file
+            ->setLabel('File Input')
+            ->setAttributes(array(
+                'id' => 'file',
+            ));
         $this->add($file);
 
         // Text Input

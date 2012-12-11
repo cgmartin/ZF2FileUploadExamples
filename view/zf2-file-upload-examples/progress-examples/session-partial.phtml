@@ -6,7 +6,9 @@
     .progress {
         margin-bottom: 5px;
     }
-    #file-errors {
+    #file-errors,
+    #text-errors,
+    #uploaded-file {
         display: none;
     }
 </style>
@@ -43,23 +45,26 @@ $form->prepare();
     $errors = $elem->getMessages();
     $errorClass = (!empty($errors)) ? ' error' : '';
     ?>
-    <div class="control-group<?php echo $errorClass ?>">
+    <div id="text-controls" class="control-group<?php echo $errorClass ?>">
         <?php echo $this->formLabel($elem); ?>
         <div class="controls">
             <?php echo $this->formText($elem); ?>
             <?php echo $errorsHelper($elem); ?>
+            <div id="text-errors" class="help-block"></div>
         </div>
     </div>
 
     <?php
     $elem = $form->get('file');
     $elem->setLabelAttributes(array('class' => 'control-label'));
+    $errors = $elem->getMessages();
+    $errorClass = (!empty($errors)) ? ' error' : '';
     ?>
-    <div id="file-controls" class="control-group">
+    <div id="file-controls" class="control-group<?php echo $errorClass ?>">
         <?php echo $this->formLabel($elem); ?>
         <div class="controls">
             <?php echo $this->formFile($elem); ?>
-
+            <?php echo $errorsHelper($elem); ?>
             <div id="file-errors" class="help-block"></div>
 
             <div id="progress" class="help-block">
@@ -68,7 +73,6 @@ $form->prepare();
                 </div>
                 <p></p>
             </div>
-            <?php echo $errorsHelper($elem); ?>
             <?php if (!empty($this->tempFiles)) { ?>
                 <!--
                 Note: You might not want to render the file input in this
@@ -82,6 +86,7 @@ $form->prepare();
                     </ul>
                 </div>
             <?php } ?>
+            <div id="uploaded-file" class="help-block"></div>
         </div>
     </div>
 
@@ -94,25 +99,44 @@ $form->prepare();
     <div id="output"></div>
 
 </fieldset>
-<?php echo $result; ?>
 <?php echo $this->form()->closeTag($form); ?>
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="/js/jquery.form.js"></script>
 <script>
+    var userInputs = ['text', 'file'];
 
     /**
      * Error Message functions
      */
     function hideErrors() {
-        $('#file-controls').removeClass('error');
-        $('#file-errors').hide();
+        $(userInputs).each(function(i, name) {
+            $('#' + name + '-controls').removeClass('error');
+            $('#' + name + '-errors').hide().html('');
+        });
     }
 
-    function showErrors(message) {
-        $('#file-controls').addClass('error');
-        $('#file-errors').show().html(message);
+    function showErrors(errors) {
+        $(userInputs).each(function(i, name) {
+            if (errors[name]) {
+                $('#' + name + '-controls').addClass('error');
+                var errDiv = $('#' + name + '-errors').show().html('');
+                for (key in errors[name]) {
+                    if (errors[name].hasOwnProperty(key)) {
+                        errDiv.append('<div>' + errors[name][key] + '</div>');
+                    }
+                }
+            }
+        });
+    }
+
+    function hideUploadedFile() {
+        $('#uploaded-file').hide().text('');
+    }
+
+    function showUploadedFile(name) {
+        $('#uploaded-file').show().text('Uploaded: ' + name);
     }
 
     function hideFormElements() {
@@ -131,6 +155,7 @@ $form->prepare();
     var progressInterval;
 
     function hideProgress() {
+        clearInterval(progressInterval);
         $('#progress').hide();
     }
 
@@ -161,46 +186,96 @@ $form->prepare();
             } else {
                 showProgress(100, 'Complete!');
                 clearInterval(progressInterval);
-                showFormElements();
             }
         });
     }
 
     function startProgress() {
-        hideFormElements();
         showProgress(0, 'Starting upload...');
         progressInterval = setInterval(getProgress, 900);
+    }
+
+    function removeProgressKeyFromPostArray(arr) {
+        var progressKeyName = $('#progress_key').attr('name');
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i].name == progressKeyName) {
+                arr.splice(i, 1);
+                break;
+            }
+        }
     }
 
     /**
      * On Ready...
      */
     $(function() {
-        var submitFunction = function(e) {
-                e.preventDefault();
+        $('#file-form').on('submit', function(e) {
+            e.preventDefault();
 
-                hideErrors();
-                hideProgress();
+            hideFormElements();
+            hideErrors();
 
-                //$.fn.ajaxSubmit.debug = true;
-                $(this).ajaxSubmit({
-                    target: null,
-                    success: function (responseText, statusText, xhr, $form) {
-                        clearInterval(progressInterval);
-                        $($form).replaceWith($('form', $(responseText)));
-                        hideErrors();
-                        hideProgress();
-                    },
-                    error: function(a, b, c) {
-                        console.log(a, b, c);
+            //$.fn.ajaxSubmit.debug = true;
+            $(this).ajaxSubmit({
+                beforeSubmit: function(arr, $form, options) {
+                    // form data array is an array of objects with name and value properties
+                    // [ { name: 'username', value: 'jresig' }, { name: 'password', value: 'secret' } ]
+
+                    // Remove the file progress id if no file being uploaded
+                    // (causes backend errors otherwise)
+                    if ($('#file').val() == '') {
+                        removeProgressKeyFromPostArray(arr);
                     }
-                });
 
-                if ($('#file').val() != '') {
-                    startProgress();
+                    // Notify backend that submit is via ajax
+                    arr.push({ name: "isAjax", value: "1" });
+
+                    // You can also return false to cancel submit
+                },
+                success: function (response, statusText, xhr, $form) {
+                    if (response.status) {
+                        // Redirect to success page
+                        window.location.replace(response.redirect);
+                        // It is better than using window.location.href =,
+                        // because replace() does not put the originating page
+                        // in the session history, meaning the user won't get
+                        // stuck in a never-ending back-button fiasco.
+                        // http://stackoverflow.com/a/506004
+
+                        // You don't necessarily have to redirect here...
+                        // You could remain on the page and display new form data.
+                    } else {
+                        // Clear the file input, otherwise the same file gets re-uploaded
+                        // http://stackoverflow.com/a/1043969
+                        var fileInput = $('#file');
+                        fileInput.replaceWith( fileInput.val('').clone( true ) );
+
+                        // Fill in errors
+                        showErrors(response.formErrors);
+
+                        // Show the current uploaded file
+                        if (response.tempFile) {
+                            showUploadedFile(response.tempFile.name);
+                        } else {
+                            hideUploadedFile();
+                        }
+                    }
+
+                    showFormElements();
+                    setTimeout(hideProgress, 1000);
+                },
+                error: function(a, b, c) {
+                    console.log(a, b, c);
+                    hideProgress();
+                    alert('Problem when submitting form! Please try again.');
                 }
+            });
+            if ($('#file').val() != '') {
+                // Only start the progress if the file input is filled in
+                startProgress();
+                hideUploadedFile();
             }
+        });
 
-        $('#file-form').live('submit', submitFunction);
     });
 </script>

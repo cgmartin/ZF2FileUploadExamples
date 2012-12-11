@@ -53,70 +53,79 @@ class ProgressExamples extends Examples
         $container   = new Container('partialExample');
         $tempFile    = $container->partialTempFile;
 
-
         if ($this->getRequest()->isPost()) {
-            // Postback
-            $data = array_merge(
+            // POST Request: Process form
+            $postData = array_merge(
                 $this->getRequest()->getPost()->toArray(),
                 $this->getRequest()->getFiles()->toArray()
             );
 
-            // whenever you post input element via ajax they might end up a an empty string, we fix that
-            if (isset($data['file']) && $data['file'] === '') {
-                $data['file'] = array('name' =>  '', 'type' => '', 'tmp_name' => '', 'error' =>  UPLOAD_ERR_NO_FILE, 'size' => 0);
-            }
             // Disable required file input if we already have an upload
             if (isset($tempFile)) {
                 $inputFilter->get('file')->setRequired(false);
             }
 
-            $form->setData($data);
+            $form->setData($postData);
             if ($form->isValid()) {
                 // If we did not get a new file upload this time around, use the temp file
                 $data = $form->getData();
                 if (empty($data['file'])) {
-                    $data['file'] = $tempFile['tmp_name'];
+                    $data['file'] = $tempFile;
                 }
 
-                // Get raw file data array
-                $fileData = $form->get('file')->getValue();
+                //
+                // ...Save the form...
+                //
 
-                if (empty($data['file'])) {
-                    $data['file'] = $tempFile['tmp_name'];
+                if (!empty($postData['isAjax'])) {
+                    // Send back success information via JSON
+                    $this->sessionContainer->formData = $data;
+                    return new JsonModel(array(
+                        'status'   => true,
+                        'redirect' => $this->url()->fromRoute('fileupload/success'),
+                        'formData' => $data,
+                    ));
+                } else {
+                    // Non-JS form submit, redirect to success page
+                    return $this->redirectToSuccessPage($data);
                 }
-
-                $result = Debug::dump($data, 'success', false);
             } else {
                 // Extend the session
                 $container->setExpirationHops(1, 'partialTempFile');
 
                 // Form was not valid, but the file input might be...
                 // Save file to a temporary file if valid.
-                $result = Debug::dump($data, 'submitted (fixed)', false);
                 $data = $form->getData();
-                $result .= Debug::dump($data, 'form::getData', false);
                 if (!empty($data['file'])) {
-                    // NOTE: $data['file'] contains the filtered file path
-                    $tempFile = $form->get('file')->getValue(); // Get the raw file upload array value
-                    $tempFilePath = './data/tmpuploads/partial' . uniqid('_');
-                    move_uploaded_file($data['file'], $tempFilePath);
-                    $tempFile['tmp_name'] = $tempFilePath;
+                    // NOTE: $data['file'] contains the filtered file path.
+                    // 'FileRenameUpload' Filter has been run, and moved the file.
+                    // Get the raw file upload array value
+                    $tempFile = $form->get('file')->getValue();
+                    $tempFile['tmp_name'] = $data['file'];
                     $container->partialTempFile = $tempFile;
                 }
 
+                if (!empty($postData['isAjax'])) {
+                    // Send back failure information via JSON
+                    return new JsonModel(array(
+                        'status'     => false,
+                        'formErrors' => $form->getMessages(),
+                        'formData'   => $data,
+                        'tempFile'   => $tempFile,
+                    ));
+                }
             }
         } else {
             // GET Request: Clear previous temp file from session
             unset($container->partialTempFile);
             $tempFile = null;
-            $result = '';
         }
+
 
         return array(
             'title' => 'Session Partial Progress Upload',
             'form' => $form,
             'tempFiles' => (isset($tempFile)) ? array($tempFile) : null,
-            'result' => $result
         );
     }
 
