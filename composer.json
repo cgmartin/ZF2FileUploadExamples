@@ -1,0 +1,32 @@
+{
+    "name": "cgmartin/ZF2FileUploadExamples",
+    "description": "Form file upload examples for Zend Framework 2",
+    "version": "1.0.0",
+    "type": "module",
+    "license": "BSD-3-Clause",
+    "tags": [
+        "zend framework",
+        "zf2",
+        "module",
+        "file",
+        "upload",
+        "form"
+    ],
+    "homepage": "https://github.com/cgmartin/ZF2FileUploadExamples",
+    "authors": [
+        {
+            "name": "Christopher Martin",
+            "email": "cgmartin@gmail.com",
+            "homepage": "http://cgmartin.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": ">=2.1.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "ZF2FileUploadExamples": "src/"
+        }
+    }
+}
