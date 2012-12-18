@@ -29,9 +29,10 @@ class ProgressExamples extends Examples
 
             $form->setData($data);
             if ($form->isValid()) {
-                // Get raw file data array
-                $fileData = $form->get('file')->getValue();
-                Debug::dump($fileData);
+                //
+                // ...Save the form...
+                //
+                Debug::dump($form->getData());
                 die();
             } else {
                 Debug::dump($form->getMessages());
@@ -99,10 +100,7 @@ class ProgressExamples extends Examples
                 if (!empty($data['file'])) {
                     // NOTE: $data['file'] contains the filtered file path.
                     // 'FileRenameUpload' Filter has been run, and moved the file.
-                    // Get the raw file upload array value
-                    $tempFile = $form->get('file')->getValue();
-                    $tempFile['tmp_name'] = $data['file'];
-                    $container->partialTempFile = $tempFile;
+                    $container->partialTempFile = $tempFile = $data['file'];;
                 }
 
                 if (!empty($postData['isAjax'])) {

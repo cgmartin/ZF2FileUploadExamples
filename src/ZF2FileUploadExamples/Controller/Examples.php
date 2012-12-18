@@ -66,10 +66,6 @@ class Examples extends AbstractActionController
 
             $form->setData($data);
             if ($form->isValid()) {
-                // Get raw file data array
-                //$fileData = $form->get('file')->getValue();
-                //Debug::dump($fileData); die();
-
                 //
                 // ...Save the form...
                 //
@@ -98,10 +94,6 @@ class Examples extends AbstractActionController
 
             $form->setData($data);
             if ($form->isValid()) {
-                // Get raw file data array
-                //$fileData = $form->get('file')->getValue();
-                //Debug::dump($fileData); die();
-
                 //
                 // ...Save the form...
                 //
@@ -135,13 +127,6 @@ class Examples extends AbstractActionController
 
             $form->setData($data);
             if ($form->isValid()) {
-                // Get raw file data array
-                //for ($i=0; $i < $form->numFileElements; $i++) {
-                //    $fileData = $form->get('file-collection')->get($i)->getValue();
-                //    Debug::dump($fileData);
-                //}
-                //die();
-
                 //
                 // ...Save the form...
                 //
@@ -180,8 +165,8 @@ class Examples extends AbstractActionController
             if ($form->isValid()) {
                 // If we did not get a new file upload this time around, use the temp file
                 $data = $form->getData();
-                if (empty($data['file'])) {
-                    $data['file'] = $tempFile['tmp_name'];
+                if (empty($data['file']['size'])) {
+                    $data['file'] = $tempFile;
                 }
 
                 //
@@ -196,12 +181,10 @@ class Examples extends AbstractActionController
                 // Form was not valid, but the file input might be...
                 // Save file to a temporary file if valid.
                 $data = $form->getData();
-                if (!empty($data['file'])) {
+                if (!empty($data['file']['size'])) {
                     // NOTE: $data['file'] contains the filtered file path.
                     // 'FileRenameUpload' Filter has been run, and moved the file.
-                    // Get the raw file upload array value
-                    $tempFile = $form->get('file')->getValue();
-                    $container->partialTempFile = $tempFile;
+                    $container->partialTempFile = $tempFile = $data['file'];
                 }
             }
         } else {
