@@ -70,7 +70,7 @@ class ProgressExamples extends Examples
             if ($form->isValid()) {
                 // If we did not get a new file upload this time around, use the temp file
                 $data = $form->getData();
-                if (empty($data['file'])) {
+                if (isset($data['file']['error']) && $data['file']['error'] !== UPLOAD_ERR_OK) {
                     $data['file'] = $tempFile;
                 }
 
@@ -97,7 +97,10 @@ class ProgressExamples extends Examples
                 // Form was not valid, but the file input might be...
                 // Save file to a temporary file if valid.
                 $data = $form->getData();
-                if (!empty($data['file'])) {
+                $fileErrors = $form->get('file')->getMessages();
+                if (empty($fileErrors) && isset($data['file']['error'])
+                    && $data['file']['error'] === UPLOAD_ERR_OK
+                ) {
                     // NOTE: $data['file'] contains the filtered file path.
                     // 'FileRenameUpload' Filter has been run, and moved the file.
                     $container->partialTempFile = $tempFile = $data['file'];;
