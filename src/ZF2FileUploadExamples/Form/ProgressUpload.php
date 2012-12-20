@@ -41,8 +41,8 @@ class ProgressUpload extends Form
         $file->getFilterChain()->attachByName(
             'filerenameupload',
             array(
-                'target'    => './data/tmpuploads/file',
-                'randomize' => true,
+                'target'    => './data/tmpuploads/',
+                'overwrite' => true,
             )
         );
         $inputFilter->add($file);
