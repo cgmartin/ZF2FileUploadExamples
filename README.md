@@ -1,14 +1,15 @@
 ZF2 File Upload Examples Module
 ===============================
 
-A set of form file upload examples in a Zend Framework 2 module.
+A set of form file upload examples to test the new features in the upcoming ZF 2.1 release.
 
-*NOTE:* Currently only compatible with the [develop ZF2 branch](https://github.com/zendframework/zf2/tree/develop),
-and this [patch](https://github.com/zendframework/zf2/pull/3259).
+**NOTE:** These examples are only compatible with Zend Framework **2.1**. You must use the 
+[develop branch](https://github.com/zendframework/zf2/tree/develop)
+and this [patch](https://github.com/zendframework/zf2/pull/3259) for it to work.
 
 
-Examples
---------
+List of Examples
+----------------
 
 * Using a single File element.
 * Using multiple File elements in a Collection.
@@ -20,7 +21,7 @@ Examples
 
 See the [Example Controllers](https://github.com/cgmartin/ZF2FileUploadExamples/tree/master/src/ZF2FileUploadExamples/Controller) for more details.
 
-If there is a use-case for File uploads that you'd like to see and isn't currently included here,
+If there is a use-case for file uploading that you'd like to see and isn't currently included here,
 please create a GitHub issue.
 
 
@@ -28,12 +29,12 @@ Installation
 ------------
 
 1. Install the [ZendSkeletonApplication](https://github.com/zendframework/ZendSkeletonApplication).
-2. Clone this project into your `./vendor/` directory (or use composer, see below)
-   and enable `ZF2FileUploadExamples` in your `application.config.php` file.
-3. Create a `./data/tmpuploads` directory, and make writeable by the webserver.
-4. Download the [jQuery Form plugin](https://github.com/malsup/form) into
+2. Clone this project into your `./vendor/` directory (or use composer, see below).
+3. Enable `ZF2FileUploadExamples` in your `application.config.php` file.
+4. Create a `./data/tmpuploads` directory, and make writeable by the webserver.
+5. Download the [jQuery Form plugin](https://github.com/malsup/form) into
    `./public/js/jquery.form.js` (for the Upload Progress example).
-5. Navigate to `/file-upload-examples` in your browser to see the list of examples.
+6. Navigate to `/file-upload-examples` in your browser to see the list of examples.
 
 You may also need to change/verify these `php.ini` settings:
 ```ini
