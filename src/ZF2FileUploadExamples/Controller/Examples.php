@@ -59,7 +59,7 @@ class Examples extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             // Postback
-            $data = array_merge(
+            $data = array_merge_recursive(
                 $this->getRequest()->getPost()->toArray(),
                 $this->getRequest()->getFiles()->toArray()
             );
@@ -87,7 +87,7 @@ class Examples extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             // Postback
-            $data = array_merge(
+            $data = array_merge_recursive(
                 $this->getRequest()->getPost()->toArray(),
                 $this->getRequest()->getFiles()->toArray()
             );
@@ -120,7 +120,7 @@ class Examples extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             // Postback
-            $data = array_merge(
+            $data = array_merge_recursive(
                 $this->getRequest()->getPost()->toArray(),
                 $this->getRequest()->getFiles()->toArray()
             );
@@ -151,7 +151,7 @@ class Examples extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             // POST Request: Process form
-            $data = array_merge(
+            $data = array_merge_recursive(
                 $this->getRequest()->getPost()->toArray(),
                 $this->getRequest()->getFiles()->toArray()
             );

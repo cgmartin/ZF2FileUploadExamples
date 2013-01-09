@@ -22,7 +22,7 @@ class ProgressExamples extends Examples
 
         if ($this->getRequest()->isPost()) {
             // Postback
-            $data = array_merge(
+            $data = array_merge_recursive(
                 $this->getRequest()->getPost()->toArray(),
                 $this->getRequest()->getFiles()->toArray()
             );
@@ -56,7 +56,7 @@ class ProgressExamples extends Examples
 
         if ($this->getRequest()->isPost()) {
             // POST Request: Process form
-            $postData = array_merge(
+            $postData = array_merge_recursive(
                 $this->getRequest()->getPost()->toArray(),
                 $this->getRequest()->getFiles()->toArray()
             );
@@ -70,7 +70,9 @@ class ProgressExamples extends Examples
             if ($form->isValid()) {
                 // If we did not get a new file upload this time around, use the temp file
                 $data = $form->getData();
-                if (isset($data['file']['error']) && $data['file']['error'] !== UPLOAD_ERR_OK) {
+                if (empty($data['file']) ||
+                    (isset($data['file']['error']) && $data['file']['error'] !== UPLOAD_ERR_OK)
+                ) {
                     $data['file'] = $tempFile;
                 }
 
@@ -124,8 +126,8 @@ class ProgressExamples extends Examples
 
 
         return array(
-            'title' => 'Session Partial Progress Upload',
-            'form' => $form,
+            'title'     => 'Session Partial Progress Upload',
+            'form'      => $form,
             'tempFiles' => (isset($tempFile)) ? array($tempFile) : null,
         );
     }

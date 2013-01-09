@@ -40,8 +40,9 @@ class MultiHtml5Upload extends Form
         $file->getFilterChain()->attachByName(
             'filerenameupload',
             array(
-                'target'    => './data/tmpuploads/',
-                'overwrite' => true,
+                'target'          => './data/tmpuploads/',
+                'overwrite'       => true,
+                'use_upload_name' => true,
             )
         );
         //$file->getValidatorChain()->addByName(
