@@ -27,6 +27,9 @@
     "autoload": {
         "psr-0": {
             "ZF2FileUploadExamples": "src/"
-        }
+        },
+        "classmap": [
+            "./Module.php"
+        ]
     }
 }
