@@ -94,6 +94,16 @@ return array(
                                     ),
                                 ),
                             ),
+                            'fieldset' => array(
+                                'type'    => 'Literal',
+                                'options' => array(
+                                    'route'    => '/fieldset',
+                                    'defaults' => array(
+                                        'controller'    => 'fileupload_prgexamples',
+                                        'action'        => 'fieldset',
+                                    ),
+                                ),
+                            ),
                         ),
                     ),
 

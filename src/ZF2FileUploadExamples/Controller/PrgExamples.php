@@ -50,4 +50,49 @@ class PrgExamples extends Examples
         $view->setTemplate('zf2-file-upload-examples/examples/single');
         return $view;
     }
+
+    /**
+     * Example of a single File element within a nested Fieldset
+     * w/ the Post-Redirect-Get plugin.
+     *
+     * @return array|ViewModel
+     */
+    public function fieldsetAction()
+    {
+        $tempFiles = array();
+
+        $form = new Form\FieldsetUpload('file-form');
+        $prg = $this->fileprg($form);
+        if ($prg instanceof \Zend\Http\PhpEnvironment\Response) {
+            return $prg; // Return PRG redirect response
+        } elseif (is_array($prg)) {
+            if ($form->isValid()) {
+
+                //
+                // ...Save the form...
+                //
+
+                return $this->redirectToSuccessPage($form->getData());
+            } else {
+                // Form not valid, but file uploads might be valid
+                $file1Errors = $form->get('fieldset')->get('file')->getMessages();
+                if (empty($file1Errors)) {
+                    $tempFiles['file'] = $form->get('fieldset')->get('file')->getValue();
+                }
+                $file2Errors = $form->get('file2')->getMessages();
+                if (empty($file2Errors)) {
+                    $tempFiles['file2'] = $form->get('file2')->getValue();
+                }
+            }
+        }
+
+        $view = new ViewModel(array(
+            'title'     => 'Post/Redirect/Get Plugin Example',
+            'legend'    => 'Nested Fieldset Elements',
+            'form'      => $form,
+            'tempFiles' => $tempFiles,
+        ));
+        $view->setTemplate('zf2-file-upload-examples/examples/fieldset');
+        return $view;
+    }
 }
