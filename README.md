@@ -3,11 +3,10 @@ ZF2 File Upload Examples Module
 
 A set of form file upload examples to test the new features in the upcoming ZF 2.1 release.
 
-**NOTE:** These examples are only compatible with Zend Framework **2.1**. You must use the 
-[develop branch](https://github.com/zendframework/zf2/tree/develop) for it to work.
+**NOTE:** These examples are only compatible with Zend Framework version **2.1** (or greater).
 
-You can find File Upload documentation in
-[this PR](https://github.com/zendframework/zf2-documentation/pull/560).
+You can find a good primer on file uploading in the
+[documentation](http://framework.zend.com/manual/2.1/en/modules/zend.form.file-upload.html).
 
 
 List of Examples
@@ -53,9 +52,8 @@ session.upload_progress.min_freq = "1"
 
 ```json
 {
-    "minimum-stability": "dev",
     "require": {
-        "cgm/zf2-file-upload-examples": "dev-master"
+        "cgm/zf2-file-upload-examples": ">=1.0.0"
     }
 }
 ```
