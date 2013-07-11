@@ -58,6 +58,3 @@ session.upload_progress.min_freq = "1"
 }
 ```
 
-Screenshot
-----------
-![Example screenshot](http://grab.by/hKOu)
