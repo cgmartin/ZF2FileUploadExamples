@@ -1,6 +1,8 @@
 ZF2 File Upload Examples Module
 ===============================
 
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
 A set of form file upload examples to test the new features in the upcoming ZF 2.1 release.
 
 **NOTE:** These examples are only compatible with Zend Framework version **2.1** (or greater).
