@@ -50,7 +50,7 @@ session.upload_progress.min_freq = "1"
 ; Also make certain 'upload_tmp_dir' is writeable
 ```
 
-###Composer###
+### Composer ###
 
 ```json
 {
